@@ -1,0 +1,16 @@
+FROM node:20.16.0-alpine3.19
+
+RUN apk update
+RUN apk add --no-cache python3 py3-pip
+
+# Install essential packages for RPC
+RUN npm install serialize-javascript
+
+# user package
+RUN npm install <package_name>
+
+RUN mkdir /etc/http_server.d
+
+ADD http_server.tar /etc/http_server.d
+
+RUN rm -rf /var/cache/apk/*
