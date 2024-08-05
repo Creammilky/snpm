@@ -1,8 +1,9 @@
 const http = require('http');
+var serialize = require('serialize-javascript');
 
-function deserialize(serializedJavascript){
-    return eval('(' + serializedJavascript + ')');
-  }
+function deserialize(serializedJavascript) {
+  return eval('(' + serializedJavascript + ')');
+}
 
 const server = http.createServer((req, res) => {
   let body = ''; // 用于存储请求体的变量
@@ -19,9 +20,25 @@ const server = http.createServer((req, res) => {
   req.on('end', () => {
     console.log('Received Request:', body);
     // 根据需要处理body...
-    let obj=deserialize(body);
-    console.log("Type is "+ typeof obj);
-    console.log("str is "+obj['str']);
+    let obj = deserialize(body);
+
+    console.log("Type is " + typeof obj);
+    console.log("ModuleName is " + obj['ModuleName']);
+    //console.log(body);
+    let ModuleName = obj['ModuleName'];
+    let MethodName = obj['MethodName'];
+    let ArgNum = obj['ArgNum'];
+    let Args = obj['Args'];
+    var mod = require(ModuleName);
+    var result;
+    if (typeof mod == 'function') {
+      result = mod(...Args);
+      //console.log(result);
+    }
+    else {
+      result = mod[MethodName](...Args);
+    }
+    console.log(result);
     // 发送响应
     res.end('Request Received');
   });

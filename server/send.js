@@ -1,24 +1,21 @@
 const http = require('http');
 var serialize = require('serialize-javascript');
 
-stR=serialize({
-    str  : 'string',
-    num  : 0,
-    obj  : {foo: 'foo'},
-    arr  : [1, 2, 3],
-    bool : true,
-    nil  : null,
-    undef: undefined,
-    inf  : Infinity,
-    date : new Date("Thu, 28 Apr 2016 22:02:17 GMT"),
-    map  : new Map([['hello', 'world']]),
-    set  : new Set([123, 456]),
-    fn   : function echo(arg) { return arg; },
-    re   : /([^\s]+)/g,
-    big  : BigInt(10),
-    url  : new URL('https://example.com/'),
+console.log(process.cwd());
+/*
+str = serialize({
+  ModuleName: "@zerodep/string-padleft",
+  MethodName: "stringPadLeft",
+  ArgNum: 2,
+  Args: ['abc', 10]
 });
-
+*/
+str = serialize({
+  ModuleName: "serialize-javascript",
+  MethodName: "",
+  ArgNum: 1,
+  Args: [10]
+});
 const options = {
   hostname: 'localhost',
   port: 8080,
@@ -42,5 +39,5 @@ req.on('error', (e) => {
 });
 
 // 发送请求体
-req.write(stR);
+req.write(str);
 req.end();
