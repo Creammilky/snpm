@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import gen_dockerfile
+import tar_server
 import docker
 import random
 import sys
@@ -25,6 +26,9 @@ def file_check(file_path):
     else:
         print(f"{file_path} exist.")
 
+def parse_pkgname(package_name):
+    return package_name[1:]
+
 if __name__ == "__main__":
     port = random.randint(10011, 65534)
 
@@ -37,13 +41,12 @@ if __name__ == "__main__":
 
     dockerfile_obj = gen_dockerfile.generate(package_name=package_name, port=port)
 
-    file_check("../docker/http_server.tar")
+    tar_server.tar_server(port=port)
+
+    file_check("../server/http_server.tar")
     file_check("../docker/DOCKERFILE")
     
-    with open('../docker/DOCKERFILE', 'r') as file:
-        if(dockerfile_obj == file):
-            image = create_docker_image(file, package_name)
-        else: 
-            raise FileExistsError("DOCKERFILE not match.")
+    with open('../docker/DOCKERFILE', 'rb') as file:
+        image = create_docker_image(file, parse_pkgname(package_name))
     rsp =client.containers.run(image=image)
     print(rsp)

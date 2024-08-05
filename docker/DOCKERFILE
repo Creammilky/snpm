@@ -9,12 +9,12 @@ RUN apk update \
 # Install essential packages for RPC
     && npm install serialize-javascript \
 # user package
-    && npm install string-padleft
+    && npm install @zerodep/string-padleft
 
 RUN rm -rf /var/cache/apk/*
 
 ADD http_server.tar /etc/http_server.d
 
-EXPOSE 62848
+EXPOSE 30109
 # Our server startup shell script
-CMD [ "start-up.sh" ]
+CMD [ "./startup.sh" ]
