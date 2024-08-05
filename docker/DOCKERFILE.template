@@ -9,12 +9,12 @@ RUN apk update \
 # Install essential packages for RPC
     && npm install serialize-javascript \
 # user package
-    && npm install <package_name>
+    && npm install {package_name}
 
 RUN rm -rf /var/cache/apk/*
 
 ADD http_server.tar /etc/http_server.d
 
-EXPOSE <port>
+EXPOSE {port}
 # Our server startup shell script
 CMD [ "./startup.sh" ]
