@@ -23,7 +23,7 @@ remove_package() {
 
 # 检查是否有足够的参数
 if [ $# -lt 2 ]; then
-    echo "Usage: snpm [-i | --install] <package_name> [--remove] <package_name>"
+    echo "Usage: snpm [-i | --install] [--remove] <package_name>"
     exit 1
 fi
 
@@ -38,6 +38,10 @@ while [[ "$#" -gt 0 ]]; do
             action="remove"
             shift # 移动到下一个参数
             ;;
+        --help)
+            action="help"
+            shift
+            ;;
         *)  # 默认情况，假设是包名
             package_name=$1
             break # 跳出循环
@@ -50,6 +54,8 @@ if [ "$action" = "install" ]; then
     install_package "$package_name"
 elif [ "$action" = "remove" ]; then
     remove_package "$package_name"
+elif [ "$action" = "help" ]; then
+    echo "Usage: snpm [-i | --install] [--remove] <package_name>"
 else
     echo "Invalid action or no action specified."
     exit 1
