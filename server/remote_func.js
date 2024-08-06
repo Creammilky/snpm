@@ -4,6 +4,11 @@ var serialize = require('serialize-javascript');
 function deserialize(serializedJavascript) {
   return eval('(' + serializedJavascript + ')');
 }
+
+const fs = require('fs');
+let jsonstring = fs.readFileSync('./package-snpm.json', 'utf8');
+let package_snpm = JSON.parse(jsonstring);
+
 let flag = false;
 var result;
 function RPC(port_id, module_name, method_name, args) {
@@ -67,24 +72,29 @@ function RPC(port_id, module_name, method_name, args) {
   //return result;
 }
 
-async function sync_rpc(port_id, module_name, method_name, args) {
+async function sync_rpc(module_name, method_name, args) {
+  /*const fs = require('fs');
+  let jsonstring = fs.readFileSync('./package-snpm.json', 'utf8');
+  let package_snpm = JSON.parse(jsonstring);*/
+  var port_id = 0;
+  for (key in package_snpm) {
+    if (key == module_name) {
+      port_id = package_snpm[key];
+      console.log('The port id is ' + port_id);
+    }
+    else if (module_name == '' && method_name == 'require' && key == args[0]) {
+      port_id = package_snpm[key];
+      console.log('The port id is ' + port_id);
+    }
+  }
+  if (port_id == 0) {
+    console.log('No Container can provide the service');
+    return null;
+  }
   res = await RPC(port_id, module_name, method_name, args);
   //console.log("I got the result, is " + res);
   return res;
 }
-/*
-function rpc(port_id, module_name, method_name, args, cb) {
-  var res;
-  RPC(port_id, module_name, method_name, args)
-    .then(result => {
-      cb(result);
-    })
-    .catch(error => {
-      console.error("An error occurred: ", error);
-    });
-  return res;
-}
-*/
 module.exports = {
   RPC: sync_rpc
 }
