@@ -38,6 +38,6 @@ def tar_server(port):
 
     with open('../server/start-up.sh', 'w') as file:
         file.write(startup_content)
-    create_tarfile("../server/http_server.tar", "../server")
-    list_tarfile("../server/http_server.tar")
+    create_tarfile("../docker/http_server.tar", "../server")
+    list_tarfile("../docker/http_server.tar")
     print("server has been tar successfully.")

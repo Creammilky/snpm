@@ -10,7 +10,7 @@ def read_template(filename):
 
 def generate_dockerfile(template_content, package_name, port):
     dockerfile_content = template_content.format(package_name=package_name, port=port)
-    with open('../docker/DOCKERFILE', 'w') as file:
+    with open('../docker/Dockerfile', 'w') as file:
         file.write(dockerfile_content)
     print("Dockerfile has been generated successfully.")
     return file
@@ -24,5 +24,5 @@ if __name__ == "__main__":
         print("Usage: python generate_dockerfile.py <package_name> <port>")
         sys.exit(1)
     package_name, port = sys.argv[1], sys.argv[2]
-    template_content = read_template('../docker/dockerfile.template')
+    template_content = read_template('../docker/DOCKERFILE.template')
     generate_dockerfile(template_content, package_name, port)

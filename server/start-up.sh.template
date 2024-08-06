@@ -1,1 +1,1 @@
-exec node app.js {port}
+exec node app.js {port} && echo Listening on {port}

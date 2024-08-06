@@ -10,13 +10,13 @@ WORKDIR /etc/http_server.d
 # Install essential packages for RPC
 # RUN npm install serialize-javascript 
 # # user package
-# RUN npm install {package_name}
+# RUN npm install @zerodep/string-padleft
 
 # RUN rm -rf /var/cache/apk/*
 
 ADD ./http_server.tar /etc/http_server.d
 
-EXPOSE {port}
+EXPOSE 10276
 
 RUN chmod +x start-up.sh
 # Our server startup shell script
