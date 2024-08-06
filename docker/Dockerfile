@@ -17,7 +17,7 @@ WORKDIR /etc/http_server.d
 
 ADD ./http_server.tar /etc/http_server.d
 
-EXPOSE 44145
+EXPOSE 17052
 
 RUN chmod +x start-up.sh
 # Our server startup shell script

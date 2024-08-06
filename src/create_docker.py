@@ -43,7 +43,7 @@ def file_check(file_path):
     
 
 def update_package_json(package_name, port, filename='package-snpm.json'):
-    file_path = filename
+    file_path = "../server/" + filename
     if os.path.exists(file_path):
         with open(file_path, 'r', encoding='utf-8') as file:
             data = json.load(file)
@@ -75,10 +75,12 @@ if __name__ == "__main__":
     package_name = sys.argv[1]
 
     dockerfile_obj = gen_dockerfile.generate(package_name=package_name, port=port)
-
+    
+    # risk of async
+    update_package_json(package_name=package_name, port=port)
     tar_server.tar_server(port=port)
 
-    file_check("../server/http_server.tar")
+    file_check("../docker/http_server.tar")
     file_check("../docker/Dockerfile")
     
     port_bindings = {
@@ -87,7 +89,7 @@ if __name__ == "__main__":
     image_pgkname = create_docker_image("../docker", parse_pkgname(package_name))
     image = image_pgkname[0]
     pgkname = image_pgkname[1]
-    update_package_json(package_name=package_name, port=port)
+    
 
     rsp = client.containers.run(
         image=image,
