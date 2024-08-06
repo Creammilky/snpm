@@ -54,13 +54,18 @@ const server = http.createServer((req, res) => {
         let MethodName = obj['MethodName'];
         let ArgNum = obj['ArgNum'];
         let Args = obj['Args'];
-        var mod = require(ModuleName);
-        if (typeof mod == 'function') {
-            result = mod(...Args);
-            //console.log(result);
+        if (ModuleName == '' && MethodName == 'require') {
+            result = eval(MethodName)(...Args);
         }
         else {
-            result = mod[MethodName](...Args);
+            var mod = require(ModuleName);
+            if (typeof mod == 'function') {
+                result = mod(...Args);
+                //console.log(result);
+            }
+            else {
+                result = mod[MethodName](...Args);
+            }
         }
         // 发送响应
         res_obj = {
