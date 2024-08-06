@@ -1,2 +1,2 @@
-WORKDIR=$(dirname "$(pwd)")'/server'
+WORKDIR=$(dirname "$(pwd)")
 echo $WORKDIR
