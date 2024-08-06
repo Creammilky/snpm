@@ -1,3 +1,4 @@
 # WORKDIR? 
 # WORKDIR/server -> npm install package
-echo "Installed" $1
+WORKDIR=$(dirname "$(pwd)")'/server'
+npm install $1 --prefix $WORKDIR
