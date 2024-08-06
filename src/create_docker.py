@@ -71,6 +71,13 @@ if __name__ == "__main__":
 
     image = create_docker_image("../docker", parse_pkgname(package_name))
     update_package_json(package_name=package_name, port=port)
-
-    rsp = client.containers.run(image="node:string-padleft")
-    print(rsp)
+    image_info = {
+        "attrs":image.attrs,
+        "id":image.id,
+        "labels":image.lables,
+        "short_id":image.short_id,
+        "tags":image.tags
+    }
+    print(image_info)
+    # rsp = client.containers.run(image="node:string-padleft")
+    # print(rsp)
