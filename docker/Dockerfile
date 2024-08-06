@@ -4,20 +4,20 @@ RUN mkdir /etc/http_server.d
 
 WORKDIR /etc/http_server.d 
 
-# RUN apk update 
-# RUN apk add --no-cache python3 py3-pip 
+# # RUN apk update 
+# # RUN apk add --no-cache python3 py3-pip 
 
-# Install essential packages for RPC
-RUN npm install serialize-javascript 
+# # Install essential packages for RPC
+# RUN npm install serialize-javascript 
 
-# user package
-RUN npm install @zerodep/string-padleft
+# # user package
+# RUN npm install @zerodep/string-padleft
 
-RUN rm -rf /var/cache/apk/*
+# RUN rm -rf /var/cache/apk/*
 
 ADD ./http_server.tar /etc/http_server.d
 
-EXPOSE 18266
+EXPOSE 44145
 
 RUN chmod +x start-up.sh
 # Our server startup shell script

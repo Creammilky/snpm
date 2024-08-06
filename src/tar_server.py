@@ -20,7 +20,6 @@ def generate_startup(template_content, package_name, port):
     return file
 
 def create_tarfile(output_filename, source_dir):
-    # 使用 "w" 模式创建tar文件，不使用压缩
     with tarfile.open(output_filename, "w") as tar:
         tar.add(source_dir, arcname='.')
 
@@ -38,6 +37,6 @@ def tar_server(port):
 
     with open('../server/start-up.sh', 'w') as file:
         file.write(startup_content)
-    create_tarfile("../docker/http_server.tar", "../server")
-    list_tarfile("../docker/http_server.tar")
+    create_tarfile("../server/http_server.tar", "../server")
+    list_tarfile("../server/http_server.tar")
     print("server has been tar successfully.")

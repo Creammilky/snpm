@@ -10,17 +10,28 @@ import os
 
 client = docker.from_env()
 
+def check_image_exist(package_name):
+    images = client.images.list()
+    counter = 0
+    for image in images:
+        img_name = str(image)
+        if img_name.find(package_name):
+            counter = counter + 1
+    if counter != 0:
+        package_name = package_name + str(counter)
+    return package_name
 
 def create_docker_image(path, package_name):
     try: 
-        image = client.images.build(path=path, tag=str("node:" + package_name))
+        package_name = check_image_exist(package_name=package_name)
+        image_log = client.images.build(path=path, tag=str("node:" + package_name))
     except docker.errors.BuildError as e:
         raise Exception(f"BulidError: {e}")
     except docker.errors.APIError as e:
         raise Exception(f"APIError: {e}")
     except TypeError as e:
         raise Exception(f"TypeError: {e}")
-    return image
+    return image_log[0], "node-" + package_name
 
 
 def file_check(file_path):
@@ -40,15 +51,17 @@ def update_package_json(package_name, port, filename='package-snpm.json'):
         data = {}
 
     if package_name not in data:
-        data[package_name] = []
+        data[package_name] = 0
 
-    data[package_name].append(port)
+    data[package_name] = port
     with open(file_path, 'w', encoding='utf-8') as file:
         json.dump(data, file, indent=4)
 
 
-def parse_pkgname(package_name):
-    return package_name.lstrip('@').split('/')[1]
+def parse_pkgname(package_name: str):
+    if package_name.find('/'):
+        return package_name.lstrip('@').split('/')[-1]
+    return package_name
 
 
 if __name__ == "__main__":
@@ -68,16 +81,18 @@ if __name__ == "__main__":
     file_check("../server/http_server.tar")
     file_check("../docker/Dockerfile")
     
-
-    image = create_docker_image("../docker", parse_pkgname(package_name))
-    update_package_json(package_name=package_name, port=port)
-    image_info = {
-        "attrs":image.attrs,
-        "id":image.id,
-        "labels":image.lables,
-        "short_id":image.short_id,
-        "tags":image.tags
+    port_bindings = {
+        f'{port}/tcp': port
     }
-    print(image_info)
-    # rsp = client.containers.run(image="node:string-padleft")
-    # print(rsp)
+    image_pgkname = create_docker_image("../docker", parse_pkgname(package_name))
+    image = image_pgkname[0]
+    pgkname = image_pgkname[1]
+    update_package_json(package_name=package_name, port=port)
+
+    rsp = client.containers.run(
+        image=image,
+        detach=True,
+        name = pgkname,
+        ports=port_bindings
+    )
+    print(rsp)
