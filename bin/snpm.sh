@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# snpm [-i --install --remove] <package_name>
 
 if [ -z "$1" ]; then
     echo "Usage: snpm package"
@@ -7,5 +8,6 @@ fi
 
 package_name=$1
 chmod +x ./create_docker.py
-# 使用exec执行npm install命令，替换当前shell进程
+
+# todo: path
 exec ./create_docker.py "$package_name"
