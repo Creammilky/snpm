@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-WORKDIR=$(pwd)
+WORKDIR=$SNPM_ROOT
 BIN_DIR="$WORKDIR/bin"
 SCRIPT_DIR="$WORKDIR/script"
 
