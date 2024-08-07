@@ -1,4 +1,4 @@
-WORKDIR=$(dirname "$(pwd)")'/server'
+WORKDIR=$SNPM_ROOT'/server'
 KEEP_PACKAGE="serialize-javascript"
 npm list --prefix $WORKDIR --depth=0 --parseable | grep -oP "node_modules/\K.*" | while read -r line
 do

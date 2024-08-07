@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "@zerodep/string-padleft": "^2.0.10",
     "serialize-javascript": "^6.0.2"
   }
 }

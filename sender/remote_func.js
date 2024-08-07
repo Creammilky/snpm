@@ -4,9 +4,9 @@ var serialize = require('serialize-javascript');
 function deserialize(serializedJavascript) {
   return eval('(' + serializedJavascript + ')');
 }
-
+const sneder_path = process.env.SNPM_ROOT + '/sender';
 const fs = require('fs');
-let jsonstring = fs.readFileSync('./package-snpm.json', 'utf8');
+let jsonstring = fs.readFileSync(sneder_path + '/package-snpm.json', 'utf8');
 let package_snpm = JSON.parse(jsonstring);
 
 let flag = false;

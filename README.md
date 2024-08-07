@@ -17,8 +17,9 @@ This is the repo of **SNPM** (Secure-NPM) - A Docker-based containerlized Javasc
 It is a MUST to add the enviroment variable to execute `snpm`
 ```shell
 vim ~/.bashrc
-# Adding SNPM_ROOT to your .bashrc
+# Adding SNPM_ROOT and NODE_PATH to your .bashrc
 export SNPM_ROOT="your_current_snpm_path"
+export NODE_PATH="$NODE_PATH:$SNPM_ROOT/sender"
 
 # Save and execute this
 source ~/.bashrc

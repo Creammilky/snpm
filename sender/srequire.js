@@ -1,6 +1,7 @@
 async function srequire(module_name) {
     const fs = require('fs');
-    let jsonstring = fs.readFileSync('./package-snpm.json', 'utf8');
+    const sneder_path = process.env.SNPM_ROOT + '/sender';
+    let jsonstring = fs.readFileSync(sneder_path + '/package-snpm.json', 'utf8');
     let package_snpm = JSON.parse(jsonstring);
     var port_id = 0;
     for (key in package_snpm) {
