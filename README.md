@@ -9,6 +9,7 @@
 [![Pre-release](https://img.shields.io/badge/Version-Pre--release-FFCCCF)](#) 
 [![Docker](https://img.shields.io/badge/Docker-2496ED.svg)](https://www.docker.com/) 
 [![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E.svg)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![CodeFactor](https://www.codefactor.io/repository/github/creammilky/snpm/badge)](https://www.codefactor.io/repository/github/creammilky/snpm)
 
 This is the repo of **SNPM** (Secure-NPM) - A Docker-based containerlized Javascript Package manager. It can generate dockers with npm packages within it and allow use them with the RPC approach we provided.
 
