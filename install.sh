@@ -31,3 +31,4 @@ else
 fi
 
 echo "snpm installed, run snpm --help to get help."
+

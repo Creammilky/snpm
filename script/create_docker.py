@@ -7,6 +7,8 @@ import json
 import sys
 import os
 
+cwd = os.getenv('SNPM_ROOT', '/usr/local/snpm')
+print("tar_server.py -> cwd:", cwd)
 
 client = docker.from_env()
 
@@ -42,8 +44,8 @@ def file_check(file_path):
         print(f"{file_path} exist.")
     
 
-def update_package_json(package_name, port, filename='package-snpm.json'):
-    file_path = filename
+def update_package_json(package_name, port, file_path=os.path.join(cwd, 'server'), filename='package-snpm.json'):
+    file_path = os.path.join(file_path, filename)
     if os.path.exists(file_path):
         with open(file_path, 'r', encoding='utf-8') as file:
             data = json.load(file)
@@ -78,16 +80,18 @@ if __name__ == "__main__":
 
     tar_server.tar_server(port=port)
 
-    file_check("../server/http_server.tar")
-    file_check("../docker/Dockerfile")
+    file_check(os.path.join(cwd ,"docker/http_server.tar"))
+    file_check(os.path.join(cwd ,"docker/Dockerfile"))
     
     port_bindings = {
         f'{port}/tcp': port
     }
-    image_pgkname = create_docker_image("../docker", parse_pkgname(package_name))
+    image_pgkname = create_docker_image(os.path.join(cwd ,"docker"), parse_pkgname(package_name))
     image = image_pgkname[0]
     pgkname = image_pgkname[1]
-    update_package_json(package_name=package_name, port=port)
+    
+    # Todo: create package-snpm.json to sender cwd
+    update_package_json(package_name=package_name, port=port, file_path=os.path.join(cwd, 'sender'))
 
     rsp = client.containers.run(
         image=image,

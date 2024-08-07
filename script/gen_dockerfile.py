@@ -3,6 +3,8 @@ import sys
 import os
 
 os.makedirs('../docker', exist_ok=True)
+cwd = os.getenv('SNPM_ROOT', '/usr/local/snpm')
+print("gen_dockerfile.py -> cwd:", cwd)
 
 def read_template(filename):
     with open(filename, 'r') as file:
@@ -10,13 +12,13 @@ def read_template(filename):
 
 def generate_dockerfile(template_content, package_name, port):
     dockerfile_content = template_content.format(package_name=package_name, port=port)
-    with open('../docker/Dockerfile', 'w') as file:
+    with open(os.path.join(cwd ,'docker/Dockerfile'), 'w') as file:
         file.write(dockerfile_content)
     print("Dockerfile has been generated successfully.")
     return file
 
 def generate(package_name, port):
-    template_content = read_template('../docker/DOCKERFILE.template')
+    template_content = read_template(os.path.join(cwd ,'docker/DOCKERFILE.template'))
     return generate_dockerfile(template_content, package_name, port)
 
 if __name__ == "__main__":

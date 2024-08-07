@@ -1,5 +1,7 @@
 import os
 import tarfile
+cwd = os.getenv('SNPM_ROOT', '/usr/local/snpm')
+print("tar_server.py -> cwd:", cwd)
 
 def read_template(filename):
     with open(filename, 'r') as file:
@@ -12,13 +14,6 @@ def file_check(file_path):
     else:
         print(f"{file_path} exist.")
 
-def generate_startup(template_content, package_name, port):
-    dockerfile_content = template_content.format(package_name=package_name, port=port)
-    with open('../', 'w') as file:
-        file.write(dockerfile_content)
-    print("Dockerfile has been generated successfully.")
-    return file
-
 def create_tarfile(output_filename, source_dir):
     with tarfile.open(output_filename, "w") as tar:
         tar.add(source_dir, arcname='.')
@@ -30,13 +25,13 @@ def list_tarfile(tar_filename):
             print(member_name)
 
 def tar_server(port):
-    file_check("../server/app.js")
-    file_check("../server/start-up.sh.template")
-    template_content = read_template("../server/start-up.sh.template")
+    file_check(os.path.join(cwd ,"server/app.js"))
+    file_check(os.path.join(cwd ,"server/start-up.sh.template"))
+    template_content = read_template(os.path.join(cwd ,"server/start-up.sh.template"))
     startup_content = template_content.format(port=port)
 
-    with open('../server/start-up.sh', 'w') as file:
+    with open(os.path.join(cwd ,"server/start-up.sh"), 'w') as file:
         file.write(startup_content)
-    create_tarfile("../server/http_server.tar", "../server")
-    list_tarfile("../server/http_server.tar")
+    create_tarfile(os.path.join(cwd ,"docker/http_server.tar"), os.path.join(cwd ,"server"))
+    list_tarfile(os.path.join(cwd ,"docker/http_server.tar"))
     print("server has been tar successfully.")
