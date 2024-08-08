@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "extend-shallow": "^3.0.2",
+    "globby": "^14.0.2",
+    "is-extendable": "^1.0.1",
+    "mime": "^4.0.4",
+    "mime-types": "^2.1.35",
+    "network": "^0.7.0",
+    "path-parse": "^1.0.7",
+    "path-to-regexp": "^7.1.0",
+    "serialize-javascript": "^6.0.2"
+  }
+}

@@ -11,13 +11,13 @@ WORKDIR /etc/http_server.d
 # RUN npm install serialize-javascript 
 
 # # user package
-# RUN npm install @zerodep/string-padleft
+# RUN npm install extend-shallow
 
 # RUN rm -rf /var/cache/apk/*
 
 ADD ./http_server.tar /etc/http_server.d
 
-EXPOSE 21672
+EXPOSE 29484
 
 RUN chmod +x start-up.sh
 # Our server startup shell script

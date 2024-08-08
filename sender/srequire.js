@@ -11,6 +11,7 @@ async function srequire(module_name) {
     }
     let rpc = require('./remote_func').RPC;
     res = await rpc('', 'require', [module_name]);
+    console.log('res is ' + res);
     if (typeof res == 'function') {
         let sfunc = (...args) => rpc(module_name, '', args);
         //console.log('error!!!!!');

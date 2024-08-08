@@ -87,10 +87,10 @@ async function sync_rpc(module_name, method_name, args) {
       console.log('The port id is ' + port_id);
     }
   }
-  if (port_id == 0) {
+  /*if (port_id == 0) {
     console.log('No Container can provide the service');
     return null;
-  }
+  }*/
   res = await RPC(port_id, module_name, method_name, args);
   //console.log("I got the result, is " + res);
   return res;

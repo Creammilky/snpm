@@ -55,7 +55,7 @@ const server = http.createServer((req, res) => {
         let ArgNum = obj['ArgNum'];
         let Args = obj['Args'];
         if (ModuleName == '' && MethodName == 'require') {
-            result = eval(MethodName)(...Args);
+            result = require(...Args);
         }
         else {
             var mod = require(ModuleName);
@@ -72,7 +72,9 @@ const server = http.createServer((req, res) => {
             type: typeof result,
             value: result
         }
+        //console.log('Response:', res_obj['value']);
         str = serialize(res_obj);
+        console.log(str);
         res.end(str);
         //res_req.write(str);
         //res_req.end();
@@ -80,7 +82,7 @@ const server = http.createServer((req, res) => {
 });
 
 /*server.listen(8080, () => {
-  console.log('Server is listening port 8080');
+    console.log('Server is listening port 8080');
 });*/
 server.listen(port_id, () => {
     console.log('Listener is listening port ' + port_id);
